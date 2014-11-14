@@ -88,12 +88,6 @@ zmodload zsh/terminfo
 bindkey "$terminfo[kcuu1]" history-substring-search-up
 bindkey "$terminfo[kcud1]" history-substring-search-down
 
-# Enable autosuggestions automatically
-#zle-line-init() {
-#    zle autosuggest-start
-#}
-#zle -N zle-line-init
-
 # alias
 alias pacupg='sudo pacman -Syu'
 alias ls='ls --color=auto -lh'
