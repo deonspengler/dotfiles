@@ -15,5 +15,7 @@ Vim is a fantastic text editor and with a few plugins it can make anyone look li
 7. Jellbeans: It is a dark yet colourful colour scheme  
 
 To setup Vim on your system with my configuration please run the following command to install vundle on your system.
+
 ```git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim```
+
 Once that is done you need to copy the .vimrc file from this repository to your home folder and then you can proceed to execute vim. With Vim now open type ":PluginInstall" without quotes and press return. This will take awhile to complete
