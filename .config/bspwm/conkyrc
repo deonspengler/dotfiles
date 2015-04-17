@@ -1,0 +1,22 @@
+# conky settings
+background no
+update_interval 1
+cpu_avg_samples 1
+net_avg_samples 1
+total_run_times 0
+override_utf8_locale yes
+short_units yes
+pad_percents 2
+top_name_width 9
+uppercase no
+out_to_console yes
+out_to_x no
+
+TEXT
+S\
+%{c}%{F\#ff3d3d3d}%{B\#ff3d3d3d}%{F\#ffffffff} ${time %a %b %d, %T}%{B-}%{F\#ff3d3d3d} \
+%{r}%{F\#ff517ba2}%{B-}%{F\#ffffffff}%{B\#ff517ba2} ${if_match "${mpd_status}" =="Playing"}${mpd_smart}${else}MPD ${mpd_status}${endif} \
+%{F\#ff3d3d3d}%{B\#ff517ba2}%{F\#ffffffff}%{B\#ff3d3d3d} ${upspeedf br0}K \
+%{F\#ff517ba2}%{B\#ff3d3d3d}%{F\#ffffffff}%{B\#ff517ba2} ${downspeedf br0}K \
+%{F\#ff3d3d3d}%{B\#ff517ba2}%{F\#ffffffff}%{B\#ff3d3d3d} ${cpu cpu0}%% \
+%{F\#ff517ba2}%{B\#ff3d3d3d}%{F\#ffffffff}%{B\#ff517ba2} ${mem} %{B-}\
