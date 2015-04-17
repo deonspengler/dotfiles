@@ -1,29 +1,17 @@
 #! /bin/sh
 
 PANEL_FIFO="/tmp/panel-fifo"
-PANEL_HEIGHT=18
+PANEL_HEIGHT=16
+FONT="-misc-tamlin-medium-r-normal--16-116-100-100-c-80-iso10646-1"
 
-COLOR_FOREGROUND='#FFA3A6AB'
-COLOR_BACKGROUND='#FF000000'
-COLOR_FOCUSED_OCCUPIED_FG='#FFF6F9FF'
-COLOR_FOCUSED_OCCUPIED_BG='#FF5C5955'
-COLOR_FOCUSED_FREE_FG='#FFF6F9FF'
-COLOR_FOCUSED_FREE_BG='#FF6D561C'
-COLOR_FOCUSED_URGENT_FG='#FF34322E'
-COLOR_FOCUSED_URGENT_BG='#FFF9A299'
-COLOR_OCCUPIED_FG='#FFA3A6AB'
-COLOR_FREE_FG='#FF6F7277'
-COLOR_URGENT_FG='#FFF9A299'
-COLOR_URGENT_BG='#FF34322E'
-COLOR_LAYOUT_FG='#FFA3A6AB'
-COLOR_TITLE_FG='#FFA3A6AB'
-COLOR_TITLE_BG='#FF34322E'
-COLOR_STATUS_FG='#FFA3A6AB'
-COLOR_STATUS_BG='#FF34322E'
+FG='#FFFFFFFF'
+BG='#FF000000'
+GREY='#ff3d3d3d'
+BLUE='#ff517ba2'
+BGSWAP=1
 
 if [ $(pgrep -cx panel) -gt 1 ] ; then
-	printf "%s\n" "The panel is already running." >&2
-	exit 1
+    killall -o 1s panel
 fi
 
 [ -e "$PANEL_FIFO" ] && rm "$PANEL_FIFO"
@@ -32,16 +20,13 @@ mkfifo "$PANEL_FIFO"
 bspc config top_padding $PANEL_HEIGHT
 bspc control --subscribe > "$PANEL_FIFO" &
 
-clock() {
-    while true ; do echo "S$(date '+%a %b %d, %T')" ; sleep 1; done
-}
-clock > "$PANEL_FIFO" &
+conky -c ~/.config/bspwm/conkyrc > "$PANEL_FIFO" &
 
 while read -r line ; do
 	case $line in
         S*)
             # clock output
-            sys_infos="%{c}${line#?}"
+            sys_infos="${line#?}"
             ;;
 		W*)
 			# bspwm internal state
@@ -54,37 +39,61 @@ while read -r line ; do
 				case $item in
 					O*)
 						# focused occupied desktop
-						wm_infos="$wm_infos %{F$COLOR_FOCUSED_OCCUPIED_FG}%{B$COLOR_FOCUSED_OCCUPIED_BG}%{U$COLOR_FOREGROUND}%{+u}${name}%{-u}"
+                        if [ $BGSWAP -eq 1 ]; then
+                            wm_infos="$wm_infos%{F$FG}%{B$BLUE} %{+u}${name}%{-u}%{F$BLUE}%{B$GREY}"
+                            BGSWAP=2
+                        else
+                            wm_infos="$wm_infos%{F$FG}%{B$GREY} %{+u}${name}%{-u}%{F$GREY}%{B$BLUE}"
+                            BGSWAP=1
+                        fi
 						;;
 					F*)
 						# focused free desktop
-						wm_infos="$wm_infos %{F$COLOR_FOCUSED_FREE_FG}%{B$COLOR_FOCUSED_FREE_BG}%{U$COLOR_FOREGROUND}%{+u}${name}%{-u}"
+                        if [ $BGSWAP -eq 1 ]; then
+                            wm_infos="$wm_infos%{F$FG}%{B$BLUE} %{+u}${name}%{-u}%{F$BLUE}%{B$GREY}"
+                            BGSWAP=2
+                        else
+                            wm_infos="$wm_infos%{F$FG}%{B$GREY} %{+u}${name}%{-u}%{F$GREY}%{B$BLUE}"
+                            BGSWAP=1
+                        fi
 						;;
 					U*)
 						# focused urgent desktop
-						wm_infos="$wm_infos %{F$COLOR_FOCUSED_URGENT_FG}%{B$COLOR_FOCUSED_URGENT_BG}%{U$COLOR_FOREGROUND}%{+u}${name}%{-u}"
+						wm_infos="$wm_infos%{F$FG} %{B$BG}%{U$FG}%{+u}${name}%{-u}"
 						;;
 					o*)
 						# occupied desktop
-						wm_infos="$wm_infos%{B$COLOR_BACKGROUND} %{F$COLOR_OCCUPIED_FG}%{B$COLOR_BACKGROUND}${name}"
+                        if [ $BGSWAP -eq 1 ]; then
+						    wm_infos="$wm_infos%{B$BLUE}%{F$FG} ${name}%{B$GREY}%{F$BLUE}"
+                            BGSWAP=2
+                        else
+						    wm_infos="$wm_infos%{B$GREY} %{F$FG}%{B$GREY}${name}%{B$BLUE}%{F$GREY}"
+                            BGSWAP=1
+                        fi
 						;;
 					f*)
 						# free desktop
-						wm_infos="$wm_infos%{B$COLOR_BACKGROUND} %{F$COLOR_FREE_FG}%{B$COLOR_BACKGROUND}${name}"
+                        if [ $BGSWAP -eq 1 ]; then
+						    wm_infos="$wm_infos%{B$BLUE}%{F$FG} ${name}%{B$GREY}%{F$BLUE}"
+                            BGSWAP=2
+                        else
+						    wm_infos="$wm_infos%{B$GREY} %{F$FG}%{B$GREY}${name}%{B$BLUE}%{F$GREY}"
+                            BGSWAP=1
+                        fi
 						;;
 					u*)
 						# urgent desktop
-						wm_infos="$wm_infos %{F$COLOR_URGENT_FG}%{B$COLOR_URGENT_BG}${name}"
+						wm_infos="$wm_infos %{F$FG}%{B$BG}${name}"
 						;;
 					L*)
 						# layout
 						layout=$(printf "%s" "${name}" | sed 's/\(.\).*/\U\1/')
-						wm_infos="$wm_infos%{B$COLOR_BACKGROUND}    %{F$COLOR_LAYOUT_FG}%{B$COLOR_BACKGROUND}$layout"
+						wm_infos="$wm_infos%{B$BLUE}  %{F$FG}$layout  %{B$BG}%{F$BLUE}%{B-}"
 						;;
 				esac
 				shift
 			done
 			;;
 	esac
-    printf "%s\n" "%{l} $wm_infos $sys_infos"
-done < "$PANEL_FIFO" | bar -g x$PANEL_HEIGHT -F "$COLOR_FOREGROUND" -B "$COLOR_BACKGROUND"
+    printf "%s\n" "%{l}$wm_infos $sys_infos"
+done < "$PANEL_FIFO" | bar -f $FONT -g x$PANEL_HEIGHT -F "$FG" -B "$BG"
