@@ -5,8 +5,9 @@ urxvt.background: #000000
 urxvt.foreground: #DEDEDE
 urxvt.scrollBar: false
 urxvt.geometry: 90x30
-urxvt.font: xft:Menlo for Powerline:size=10
-urxvt.letterSpace: -1
+!urxvt.font: xft:Menlo for Powerline:size=10
+urxvt.font: -misc-tamlin-medium-r-normal--16-116-100-100-c-80-iso10646-1 
+!urxvt.letterSpace: -1
 urxvt.colorMode: on
 urxvt.cursorBlink: true
 urxvt.cursorUnderline: false
@@ -14,13 +15,13 @@ urxvt.buffered: true
 urxvt.borderless: true
 urxvt.urlLauncher: /usr/bin/chromium
 urxvt.underlineURLs: false
-Xft.dpi: 96
-Xft.autohint: false
-Xft.hinting: true
-Xft.hintstyle: hintfull
-Xft.antialias: true
-Xft.rgba: rgb
-Xft.lcdfilter: lcddefault
+!Xft.dpi: 96
+!Xft.autohint: false
+!Xft.hinting: true
+!Xft.hintstyle: hintfull
+!Xft.antialias: true
+!Xft.rgba: rgb
+!Xft.lcdfilter: lcddefault
 
 ! black
 urxvt.color0  : #2E3436
