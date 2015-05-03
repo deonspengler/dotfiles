@@ -22,6 +22,7 @@ Plugin 'bling/vim-airline'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'nanotech/jellybeans.vim'
+Plugin 'reedes/vim-colors-pencil'
 call vundle#end()
 
 " set color scheme
@@ -100,3 +101,12 @@ let g:UltiSnipsExpandTrigger="<C-j>"
 
 " 80 column layout for python
 autocmd FileType python set colorcolumn=80
+
+" set color for printing
+command Hardcopy call Hardcopy()
+function! Hardcopy()
+  let colors_save = g:colors_name
+  colorscheme default
+  hardcopy
+  execute 'colorscheme' colors_save
+endfun
