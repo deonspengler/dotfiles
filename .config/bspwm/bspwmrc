@@ -24,4 +24,4 @@ bspc rule -a Steam desktop=games
 sxhkd &
 
 # panel
-/home/deons/.config/bspwm/panel &
+~/.config/bspwm/panel &
