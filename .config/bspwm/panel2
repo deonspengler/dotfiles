@@ -1,0 +1,127 @@
+#!/usr/bin/dash
+
+PANEL_FIFO="/tmp/panel-fifo"
+num_mon=$(bspc query -M | wc -l)
+PANEL_HEIGHT=16
+FONT="-misc-tamlin-medium-r-normal--16-116-100-100-c-80-iso10646-1"
+
+FG='#FFFFFFFF'
+BG='#FF000000'
+GREY='#ff3d3d3d'
+BLUE='#ff517ba2'
+
+BGSWAP=1
+wm_info_array='array'
+
+if [ $(pgrep -cx panel) -gt 1 ] ; then
+    killall -o 1s panel
+fi
+
+[ -e "$PANEL_FIFO" ] && rm "$PANEL_FIFO"
+mkfifo "$PANEL_FIFO"
+
+bspc config top_padding $PANEL_HEIGHT
+bspc control --subscribe > "$PANEL_FIFO" &
+
+conky -c ~/.config/bspwm/conkyrc > "$PANEL_FIFO" &
+
+while read -r line ; do
+	case $line in
+        S*)
+            # clock output
+            sys_infos="${line#?}"
+            ;;
+		W*)
+			# bspwm internal state
+			wm_infos=""
+            cur_mon=-1
+			IFS=':'
+			set -- ${line#?}
+			while [ $# -gt 0 ] ; do
+				item=$1
+				name=${item#?}
+				case $item in
+                    M*)
+                        # active monitor
+                        cur_mon=$((cur_mon + 1))
+                        wm_infos=""
+                        ;;
+                    m*)
+                        # inactive monitor
+                        cur_mon=$((cur_mon + 1))
+                        wm_infos=""
+                        ;;
+					O*)
+						# focused occupied desktop
+                        if [ $BGSWAP -eq 1 ]; then
+                            wm_infos="$wm_infos%{F$FG}%{B$BLUE} %{+u}${name}%{-u}%{F$BLUE}%{B$GREY}"
+                            BGSWAP=2
+                        else
+                            wm_infos="$wm_infos%{F$FG}%{B$GREY} %{+u}${name}%{-u}%{F$GREY}%{B$BLUE}"
+                            BGSWAP=1
+                        fi
+						;;
+					F*)
+						# focused free desktop
+                        if [ $BGSWAP -eq 1 ]; then
+                            wm_infos="$wm_infos%{F$FG}%{B$BLUE} %{+u}${name}%{-u}%{F$BLUE}%{B$GREY}"
+                            BGSWAP=2
+                        else
+                            wm_infos="$wm_infos%{F$FG}%{B$GREY} %{+u}${name}%{-u}%{F$GREY}%{B$BLUE}"
+                            BGSWAP=1
+                        fi
+						;;
+					U*)
+						# focused urgent desktop
+						wm_infos="$wm_infos%{F$FG} %{B$BG}%{U$FG}%{+u}${name}%{-u}"
+						;;
+					o*)
+						# occupied desktop
+                        if [ $BGSWAP -eq 1 ]; then
+						    wm_infos="$wm_infos%{B$BLUE}%{F$FG} ${name}%{B$GREY}%{F$BLUE}"
+                            BGSWAP=2
+                        else
+						    wm_infos="$wm_infos%{B$GREY} %{F$FG}%{B$GREY}${name}%{B$BLUE}%{F$GREY}"
+                            BGSWAP=1
+                        fi
+						;;
+					f*)
+						# free desktop
+                        if [ $BGSWAP -eq 1 ]; then
+						    wm_infos="$wm_infos%{B$BLUE}%{F$FG} ${name}%{B$GREY}%{F$BLUE}"
+                            BGSWAP=2
+                        else
+						    wm_infos="$wm_infos%{B$GREY} %{F$FG}%{B$GREY}${name}%{B$BLUE}%{F$GREY}"
+                            BGSWAP=1
+                        fi
+						;;
+					u*)
+						# urgent desktop
+						wm_infos="$wm_infos %{F$FG}%{B$BG}${name}"
+						;;
+					L*)
+						# layout
+						layout=$(printf "%s" "${name}" | sed 's/\(.\).*/\U\1/')
+						wm_infos="$wm_infos%{B$BLUE}  %{F$FG}$layout  %{B$BG}%{F$BLUE}%{B-}"
+						;;
+				esac
+				shift
+                eval ${wm_info_array}${cur_mon}="'$wm_infos'"
+			done
+			;;
+	esac
+
+    if [ $num_mon -eq 3 ]; then
+        mon1=0
+        mon2=1
+        mon3=2
+
+        wm_info_mon1=$(echo $(eval echo \$$wm_info_array${mon1}))
+        wm_info_mon2=$(echo $(eval echo \$$wm_info_array${mon2}))
+        wm_info_mon3=$(echo $(eval echo \$$wm_info_array${mon3}))
+
+        fmt="%{l}${wm_info_mon1}%{S+}%{l}${wm_info_mon2}%{S+}%{l}${wm_info_mon3}"
+    fi
+
+    printf "%s\n" "$fmt $sys_infos"
+done < "$PANEL_FIFO" | bar -f $FONT -g x$PANEL_HEIGHT -F "$FG" -B "$BG"
