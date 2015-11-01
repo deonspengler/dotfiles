@@ -1,0 +1,4 @@
+text/html; w3m -I %{charset} -T text/html; copiousoutput;
+image/jpeg; sxiv %s
+image/png; sxiv %s
+application/pdf; mupdf %s

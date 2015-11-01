@@ -1,0 +1,82 @@
+# connection options
+set ssl_force_tls = yes
+set ssl_starttls = yes
+
+# username and password
+source "gpg -q -d ~/.mutt/passwords.asc |"
+set imap_user = username@gmail.com
+set smtp_url = smtp://username@smtp.gmail.com:587
+
+# setup from details
+set from = username@gmail.com
+set realname = "Real Name"
+
+# setup cahce directories
+set certificate_file = ~/.mutt/certificates
+set header_cache = ~/.mutt/cache/headers
+set message_cachedir = ~/.mutt/cache/bodies
+set tmpdir = ~/.mutt/tmp
+
+# keep IMAP settings
+set imap_keepalive = 300
+set imap_passive = no
+set imap_check_subscribed = yes
+
+# how often to check for new mail (time in seconds)
+set mail_check = 60
+
+# remote gmail folders
+set folder = imaps://imap.gmail.com:993
+set spoolfile = +INBOX
+set postponed = +[Gmail]/Drafts
+
+# set sort options
+set sort = threads
+set sort_aux = reverse-last-date-received
+
+# setup helpers
+set mailcap_path = ~/.mutt/mailcap
+
+# google address book support
+set query_command = "goobook query '%s'"
+bind editor "\t" complete-query
+
+# view html emails
+auto_view text/html
+
+# index_format
+set index_format="%3C %Z %[%b %d %H:%M] - %-22.22L %s"
+
+# Header Options -------------------------------------
+ignore *                                # ignore all headers
+unignore from: to: cc: date: subject:   # show only these
+unhdr_order *                           # some distros order things by default
+hdr_order from: to: cc: date: subject:  # and in this order
+
+# set editor
+set editor='vim'
+
+# Refresh/Sync
+bind index U imap-fetch-mail
+
+# Set colors to use
+color hdrdefault blue black
+color quoted blue black
+color signature blue black
+color attachment green black
+color message brightred black
+color error brightred black
+color indicator black white
+color status brightgreen blue
+color tree white black
+color normal white black
+color markers red black
+color search white black
+color tilde brightmagenta black
+color index color33 black ~F
+color index color111 black "~N|~O"
+
+# message headers
+color hdrdefault    white        black
+color header        white        black        "^(From)"
+color header        color111     black        "^(Subject)"
