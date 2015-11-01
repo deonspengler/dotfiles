@@ -16,9 +16,10 @@ setopt SHARE_HISTORY
 fpath=("$HOME/.zsh/functions/prompts" $fpath)
 
 # load extentions
-autoload -U compinit promptinit url-quote-magic colors zsh/terminfo
+autoload -Uz compinit promptinit bracketed-paste-magic url-quote-magic colors zsh/terminfo
 
 # quote pasted URLs
+zle -N bracketed-paste bracketed-paste-magic
 zle -N self-insert url-quote-magic
 
 # prompt
