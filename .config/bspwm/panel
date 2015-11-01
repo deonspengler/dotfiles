@@ -1,6 +1,7 @@
-#! /bin/sh
+#!/usr/bin/sh
 
 PANEL_FIFO="/tmp/panel-fifo"
+num_mon=$(bspc query -M | wc -l)
 PANEL_HEIGHT=16
 FONT="-misc-tamlin-medium-r-normal--16-116-100-100-c-80-iso10646-1"
 
@@ -8,10 +9,13 @@ FG='#FFFFFFFF'
 BG='#FF000000'
 GREY='#ff3d3d3d'
 BLUE='#ff517ba2'
+
 BGSWAP=1
+wm_info_array='array'
 
 if [ $(pgrep -cx panel) -gt 1 ] ; then
-    killall -o 1s panel
+    killall panel
+    killall conky
 fi
 
 [ -e "$PANEL_FIFO" ] && rm "$PANEL_FIFO"
@@ -20,23 +24,34 @@ mkfifo "$PANEL_FIFO"
 bspc config top_padding $PANEL_HEIGHT
 bspc control --subscribe > "$PANEL_FIFO" &
 
-conky -c ~/.config/bspwm/conkyrc > "$PANEL_FIFO" &
+conky -c ~/.config/bspwm/conky.conf > "$PANEL_FIFO" &
 
 while read -r line ; do
 	case $line in
         S*)
-            # clock output
+            # conky output
             sys_infos="${line#?}"
             ;;
 		W*)
 			# bspwm internal state
 			wm_infos=""
+            cur_mon=-1
 			IFS=':'
 			set -- ${line#?}
 			while [ $# -gt 0 ] ; do
 				item=$1
 				name=${item#?}
 				case $item in
+                    M*)
+                        # active monitor
+                        cur_mon=$((cur_mon + 1))
+                        wm_infos=""
+                        ;;
+                    m*)
+                        # inactive monitor
+                        cur_mon=$((cur_mon + 1))
+                        wm_infos=""
+                        ;;
 					O*)
 						# focused occupied desktop
                         if [ $BGSWAP -eq 1 ]; then
@@ -92,8 +107,20 @@ while read -r line ; do
 						;;
 				esac
 				shift
+                eval ${wm_info_array}${cur_mon}="'$wm_infos'"
 			done
 			;;
 	esac
-    printf "%s\n" "%{l}$wm_infos $sys_infos"
-done < "$PANEL_FIFO" | bar -f $FONT -g x$PANEL_HEIGHT -F "$FG" -B "$BG"
+
+    if [ $num_mon -eq 2 ]; then
+        mon1=0
+        mon2=1
+
+        wm_info_mon1=$(echo $(eval echo \$$wm_info_array${mon1}))
+        wm_info_mon2=$(echo $(eval echo \$$wm_info_array${mon2}))
+
+        bar_info="%{l}${wm_info_mon1} $sys_infos%{S+}%{l}${wm_info_mon2} $sys_infos"
+    fi
+
+    printf "%s\n" "$bar_info"
+done < "$PANEL_FIFO" | lemonbar -f $FONT -g x$PANEL_HEIGHT -F "$FG" -B "$BG"
