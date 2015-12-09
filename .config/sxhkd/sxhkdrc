@@ -1,75 +1,85 @@
-#
+###############
 # bspwm hotkeys
-#
+###############
 
+# restart bspwm
 super + alt + Escape
 	bspc quit
 
+# close window
 alt + w
 	bspc window -c
 
-super + t
-	bspc desktop -l next
-
+# balance all windows on selected desktop
 super + b
 	bspc desktop -B
 
-super + {s,f,}
+# switch window state to floating or fullscreen
+super + {s,f}
 	bspc window -t {floating,fullscreen}
 
-super + g
-    bspc window -s last.manual
+# switch window state to tiling or monocle
+super + t
+	bspc desktop -l next
 
-super + {grave,Tab}
-	bspc {window,desktop} -f last
+# sticky windows
+super + e
+    bspc window -t sticky
 
-super + apostrophe
-	bspc window -s last
+# hide all windows on all desktops
+super + z
+    bspc control --toggle-visibility
 
+# move back and forward through focus history
 super + {o,i}
 	bspc control --record-history off; \
 	bspc window {older,newer} -f; \
 	bspc control --record-history on
 
+# send active window to preselect
 alt + y
 	bspc window -w last.manual
 
-super + m
-	bspc window -s biggest
-
+# move active window
 alt + {_,shift + }{h,j,k,l}
 	bspc window -{f,s} {left,down,up,right}
 
-super + {_,shift + }c
-	bspc window -f {next,prev}
-
+# rotate window position
 super + {comma,period}
 	bspc desktop -C {backward,forward}
 
+# Mirror and flip leaves of tree
+alt + {comma,period}
+    bspc desktop -F {horizontal,vertical}
+
+# Rotate leaves of tree
+alt + shift + {comma,period}
+    bspc desktop -R {90,270}
+
+# switch workspace on desktop
 super + bracket{left,right}
 	bspc desktop -f {prev,next}
 
+# preselection
 alt + ctrl + {h,j,k,l}
 	bspc window -p {left,down,up,right}
 
-super + ctrl + {_,shift + }space
-	bspc {window -p cancel,desktop -c}
-
+# resize window
 super + alt + {h,j,k,l}
 	bspc window -e {left -10,down +10,up -10,right +10}
 
 super + alt + shift + {h,j,k,l}
 	bspc window -e {right -10,up +10,down -10,left +10}
 
-super + ctrl + {1-9}
-	bspc window -r 0.{1-9}
-
+# send active window to desktop
 super + {_,shift + }{1-9,0}
 	bspc {desktop -f,window -d} ^{1-9,10}
 
+# focus window on left click
 ~button1
 	bspc pointer -g focus
 
+# resize window
 super + button{1-3}
 	bspc pointer -g {move,resize_side,resize_corner}
 
@@ -79,24 +89,49 @@ super + !button{1-3}
 super + @button{1-3}
 	bspc pointer -u
 
-#
+########################
 # wm independent hotkeys
-#
+########################
 
+# urxvt terminal
 alt + Return
 	urxvtc
 
+# application launcher
 super + space
-	dmenu_run -nb '#000000'
+    dmenu_run -fn "-misc-tamlin-medium-r-normal--16-116-100-100-c-80-iso10646-1" -nb "#000000" -sb "#517ba2"
 
+# mpd next track
 alt + shift + n
     mpc next
 
+# mpd previous track
 alt + shift + p
     mpc prev
 
+# play / pause mpd
 alt + shift + s
     mpc toggle
+
+# file manager
+alt + shift + f
+    urxvtc -e ranger
+
+# web browser
+alt + shift + b
+    chromium
+
+# steam
+alt + shift + x
+    steam
+
+# lock screen
+super + l
+    lock
+
+# switch user
+super + shift + l
+    dm-tool switch-to-greeter
 
 # make sxhkd reload its configuration files:
 super + Escape
