@@ -8,41 +8,23 @@ super + alt + Escape
 
 # close window
 alt + w
-	bspc window -c
-
-# balance all windows on selected desktop
-super + b
-	bspc desktop -B
+	bspc node -c
 
 # switch window state to floating or fullscreen
 super + {s,f}
-	bspc window -t {floating,fullscreen}
+	bspc node -t {'~floating','~fullscreen'}
 
 # switch window state to tiling or monocle
-super + t
+super + m
 	bspc desktop -l next
-
-# sticky windows
-super + e
-    bspc window -t sticky
-
-# hide all windows on all desktops
-super + z
-    bspc control --toggle-visibility
-
-# move back and forward through focus history
-super + {o,i}
-	bspc control --record-history off; \
-	bspc window {older,newer} -f; \
-	bspc control --record-history on
 
 # send active window to preselect
 alt + y
-	bspc window -w last.manual
+	bspc node -n last.!automatic
 
 # move active window
 alt + {_,shift + }{h,j,k,l}
-	bspc window -{f,s} {left,down,up,right}
+	bspc node -{f,s} {west,south,north,east}
 
 # rotate window position
 super + {comma,period}
@@ -50,30 +32,31 @@ super + {comma,period}
 
 # Mirror and flip leaves of tree
 alt + {comma,period}
-    bspc desktop -F {horizontal,vertical}
+    bspc node @/ -F {horizontal,vertical}
 
 # Rotate leaves of tree
-alt + shift + {comma,period}
-    bspc desktop -R {90,270}
+alt + shift + {period,comma}
+    bspc node @/ -R {90,270}
 
 # switch workspace on desktop
-super + bracket{left,right}
+alt + bracket{left,right}
 	bspc desktop -f {prev,next}
 
 # preselection
 alt + ctrl + {h,j,k,l}
-	bspc window -p {left,down,up,right}
+	bspc node -p {'~west','~south','~north','~east'}
 
-# resize window
-super + alt + {h,j,k,l}
-	bspc window -e {left -10,down +10,up -10,right +10}
+# expand a window by moving one of its side outward
+super +  {h,j,k,l}
+    bspc node {@west -r -10,@south -r +10,@north -r -10,@east -r +10}
 
-super + alt + shift + {h,j,k,l}
-	bspc window -e {right -10,up +10,down -10,left +10}
+# contract a window by moving one of its side inward
+super +  shift + {h,j,k,l}
+    bspc node {@east -r -10,@north -r +10,@south -r -10,@west -r +10}
 
 # send active window to desktop
 super + {_,shift + }{1-9,0}
-	bspc {desktop -f,window -d} ^{1-9,10}
+	bspc {desktop -f,node -d} ^{1-9,10}
 
 # focus window on left click
 ~button1
@@ -114,7 +97,7 @@ alt + shift + s
     mpc toggle
 
 # file manager
-alt + shift + f
+alt + BackSpace
     urxvtc -e ranger
 
 # web browser
@@ -126,12 +109,12 @@ alt + shift + x
     steam
 
 # lock screen
-super + l
-    lock
-
-# switch user
-super + shift + l
+ctrl + super + l
     dm-tool switch-to-greeter
+
+# blank monitors
+ctrl + super +  m
+    blankmonitor
 
 # make sxhkd reload its configuration files:
 super + Escape
