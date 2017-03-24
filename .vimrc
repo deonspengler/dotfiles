@@ -23,6 +23,7 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'nanotech/jellybeans.vim'
 Plugin 'reedes/vim-colors-pencil'
+Plugin 'rakr/vim-one'
 call vundle#end()
 
 " set color scheme
@@ -35,6 +36,9 @@ set hidden
 " enable syntax highlighting
 filetype plugin indent on
 syntax on
+
+"colorscheme one
+"set background=dark
 
 " spell checking
 imap <F5> <C-o>:setlocal spell! spelllang=en_us<CR>
@@ -106,7 +110,7 @@ autocmd FileType python set colorcolumn=80
 command Hardcopy call Hardcopy()
 function! Hardcopy()
   let colors_save = g:colors_name
-  colorscheme default
+  colorscheme pencil
   hardcopy
   execute 'colorscheme' colors_save
 endfun
