@@ -35,9 +35,6 @@ bspc rule -a obs state=floating
 bspc rule -a Pavucontrol state=floating
 bspc rule -a "TeamSpeak 3" state=floating
 
-# compositor
-#compton &
-
 # restore wallpaper
 nitrogen --restore
 
