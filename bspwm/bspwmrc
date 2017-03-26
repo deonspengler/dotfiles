@@ -35,8 +35,17 @@ bspc rule -a obs state=floating
 bspc rule -a Pavucontrol state=floating
 bspc rule -a "TeamSpeak 3" state=floating
 
-# hotkey daemon
-sxhkd &
+# compositor
+#compton &
+
+# restore wallpaper
+nitrogen --restore
 
 # panel
 ~/.config/bspwm/panel &
+
+# hotkey daemon
+sxhkd &
+
+# run notification server
+dunst &
