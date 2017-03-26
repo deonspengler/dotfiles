@@ -38,9 +38,3 @@ mpd
 
 # Run notification daemon
 dunst &
-
-# Automount usb disks
-#udiskie -2 &
-
-# Run compositor
-#compton &
