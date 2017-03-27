@@ -31,7 +31,9 @@ Vim is one of the best text editors and is very customisable, with few plugins i
 
 To setup Vim on your system with my configuration please run the following command to install vundle on your system.
 
-```git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim```
+```
+git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+```
 
 Once that is done you can proceed to execute vim. With Vim now open type :PluginInstall. This can take awhile to complete, when the install process finishes exit vim and run the following commands to compile and finalize the installation of YouCompleteMe.
 
