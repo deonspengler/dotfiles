@@ -1,12 +1,14 @@
 My configs and scripts
 ======================
-This repository is a collection of configurations that I use on my systems to make my life easier. Below is a brief description of some of the tools that I use in the hope that someone else might find this useful.
+This repository is a collection of configurations files and scripts that I use on my Arch Linux systems to make my life easier. This is how my desktop currently looks like, if you see something that you like please feel free to use anything that might be of use to you.
 
 ![Image of my Desktop](https://github.com/deonspengler/dotfiles/raw/master/screenshot.png)
 
+Below is a brief description of some of the tools that I use in the hope that someone else might find this useful.
+
 bspwm
 -----
-This is a fantastic tiling window manager that represents windows as the leaves of a full binary tree. My scripts for bspwm supports single to multiple monitors, adjusting the workspaces depending on the amount of monitors that is detected during startup. These scripts for bspwm depends on the following.
+This is a fantastic tiling window manager that represents windows as the leaves of a full binary tree. My scripts for bspwm supports single to multiple monitors, adjusting the workspaces depending on the amount of monitors that is detected during startup. These scripts for bspwm depends on the following applications.
 
 * nitrogen (is a fast and lightweight desktop background browser and setter for X windows)
 * conky (is a extremely configurable system monitor)
@@ -17,7 +19,7 @@ This is a fantastic tiling window manager that represents windows as the leaves 
 
 vim
 ---
-Using the vim text editor with a couple of plugins it can make anyone look like a pro. Here is a couple of plugins that I find very useful.
+Vim is one of the best text editors and is very customisable, with few plugins it can pretty much do whatever you require from a text editor. Here is a couple of plugins that I use and find very useful.
 
 * vungle (is used to manage plugins in vim)
 * ultisnips (is the ultimate solution for snippets in vim)
@@ -31,4 +33,9 @@ To setup Vim on your system with my configuration please run the following comma
 
 ```git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim```
 
-Once that is done you can proceed to execute vim. With Vim now open type :PluginInstall. This will take awhile to complete.
+Once that is done you can proceed to execute vim. With Vim now open type :PluginInstall. This can take awhile to complete, when the install process finishes exit vim and run the following commands to compile and finalize the installation of YouCompleteMe.
+
+```
+cd ~/.vim/bundle/YouCompleteMe
+python2 install.py
+```
