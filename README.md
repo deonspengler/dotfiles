@@ -1,6 +1,7 @@
-My configs
-==========
+My configs and scripts
+======================
 This repository is a collection of configurations that I use on my systems to make my life easier. Below is a brief description of some of the tools that I use in the hope that someone else might find this useful.
+![Image of my Desktop](https://github.com/deonspengler/dotfiles/raw/master/screenshot.png)
 
 bspwm
 -----
@@ -8,7 +9,7 @@ This is a fantastic tiling window manager that represents windows as the leaves 
 
 vim
 ---
-Vim is a fantastic text editor and with a few plugins it can make anyone look like a pro. Here is a couple of plugins that I find very useful.
+Using the vim text editor with a couple of plugins it can make anyone look like a pro. Here is a couple of plugins that I find very useful.
 
 1. Vungle: Used to manage plugins in Vim
 2. Ultisnips: Is the ultimate solution for snippets in Vim
@@ -22,4 +23,4 @@ To setup Vim on your system with my configuration please run the following comma
 
 ```git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim```
 
-Once that is done you need to copy the .vimrc file from this repository to your home folder and then you can proceed to execute vim. With Vim now open type ":PluginInstall" without quotes and press return. This will take awhile to complete
+Once that is done you can proceed to execute vim. With Vim now open type ":PluginInstall" without quotes and press return. This will take awhile to complete.
