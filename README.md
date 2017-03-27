@@ -1,6 +1,6 @@
 My configs and scripts
 ======================
-This repository is a collection of configurations files and scripts that I use on my Arch Linux systems to make my life easier. This is how my desktop currently looks like, if you see something that you like please feel free to use anything that might be of use to you.
+This repository is a collection of configurations files and scripts that I use on my Arch Linux system to make my life easier. This is how my desktop currently looks like, if you see something that you like please feel free to use anything that might be of use to you.
 
 ![Image of my Desktop](https://github.com/deonspengler/dotfiles/raw/master/screenshot.png)
 
