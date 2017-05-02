@@ -22,11 +22,11 @@ if [ ${#monitors[@]} -eq 2 ]; then
     bspc monitor ${monitors[0]} -d web games
     bspc monitor ${monitors[1]} -d term misc
 else
-    bspc monitor -d term web games misc
+    bspc monitor -d web term games misc
 fi
 
 # application rules
-bspc rule -a Opera desktop=web
+bspc rule -a Chromium desktop=web
 bspc rule -a Steam follow=off state=floating desktop=games
 bspc rule -a Galculator state=floating
 bspc rule -a RocketLeague border=off
@@ -34,6 +34,10 @@ bspc rule -a Nvidia-settings state=floating
 bspc rule -a obs state=floating
 bspc rule -a Pavucontrol state=floating
 bspc rule -a "TeamSpeak 3" state=floating
+bspc rule -a Nitrogen state=floating
+
+# compositor
+compton -b
 
 # restore wallpaper
 nitrogen --restore
@@ -44,5 +48,5 @@ nitrogen --restore
 # hotkey daemon
 sxhkd &
 
-# run notification server
+# desktop notifications
 dunst &
