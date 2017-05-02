@@ -71,16 +71,16 @@ super + space
     dmenu_run -fn "-misc-tamlin-medium-r-normal--16-116-100-100-c-80-iso10646-1" -nb "#000000" -sb "#517ba2"
 
 # mpd next track
-alt + shift + n
-    mpc next
+alt + n
+    mpc -h 192.168.0.1 next
 
 # mpd previous track
-alt + shift + p
-    mpc prev
+alt + p
+    mpc -h 192.168.0.1 prev
 
 # play / pause mpd
-alt + shift + s
-    mpc toggle
+alt + s
+    mpc -h 192.168.0.1 toggle
 
 # file manager
 alt + BackSpace
@@ -88,7 +88,7 @@ alt + BackSpace
 
 # web browser
 alt + shift + b
-    opera
+    chromium
 
 # steam
 alt + shift + x
@@ -105,6 +105,18 @@ ctrl + super +  m
 # put rocket legue over both monitors
 alt + c
     xdotool search --name "Rocket League" windowactivate windowmove 0 0 
+
+# increase master volume
+alt + i
+    pamixer -i 5
+
+# decrease master volume
+alt + u
+    pamixer -d 5
+
+# mute toggle
+alt + m
+    pamixer -t
 
 # make sxhkd reload its configuration files:
 super + Escape
