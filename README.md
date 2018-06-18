@@ -8,9 +8,9 @@ Below is a brief description of some of the tools that I use in the hope that so
 
 bspwm
 -----
-This is a fantastic tiling window manager that represents windows as the leaves of a full binary tree. My scripts for bspwm supports single to multiple monitors, adjusting the workspaces depending on the amount of monitors that is detected during startup. These scripts for bspwm depends on the following applications.
+This is a fantastic tiling window manager that represents windows as the leaves of a full binary tree. My scripts for bspwm supports single to dual monitors, adjusting the workspaces depending on the amount of monitors that is detected during startup. These scripts for bspwm depends on the following applications.
 
-* nitrogen (is a fast and lightweight desktop background browser and setter for X windows)
+* nitrogen (is a fast and lightweight desktop wallpaper setter for X windows)
 * conky (is a extremely configurable system monitor)
 * sxhkd (is a simple X hotkey daemon with a powerful and compact configuration syntax)
 * dunst (is a minimalistic notification daemon that can listen to notifications from libnotify)

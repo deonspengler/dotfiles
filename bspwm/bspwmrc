@@ -1,4 +1,4 @@
-#! /usr/bin/bash
+#!/usr/bin/bash
 
 # bspwm config
 bspc config border_width        2
@@ -26,18 +26,21 @@ else
 fi
 
 # application rules
-bspc rule -a Chromium desktop=web
+bspc rule -a Firefox desktop=web
 bspc rule -a Steam follow=off state=floating desktop=games
 bspc rule -a Galculator state=floating
-bspc rule -a RocketLeague border=off
 bspc rule -a Nvidia-settings state=floating
 bspc rule -a obs state=floating
 bspc rule -a Pavucontrol state=floating
 bspc rule -a "TeamSpeak 3" state=floating
 bspc rule -a Nitrogen state=floating
+bspc rule -a Vividhue state=floating
 
 # compositor
 compton -b
+
+# set cursor to expected left-pointer
+xsetroot -cursor_name left_ptr
 
 # restore wallpaper
 nitrogen --restore
@@ -50,3 +53,6 @@ sxhkd &
 
 # desktop notifications
 dunst &
+
+# hide mouse when idle
+unclutter &

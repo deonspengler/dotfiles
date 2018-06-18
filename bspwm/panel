@@ -1,4 +1,4 @@
-#! /usr/bin/bash
+#!/usr/bin/bash
 PANEL_FIFO=/tmp/panel-fifo
 PANEL_HEIGHT=16
 PANEL_FONT="-misc-tamlin-medium-r-normal--16-116-100-100-c-80-iso10646-1"
@@ -10,8 +10,8 @@ COLOR_GREY2="#a7a5a5"
 COLOR_GREY3="#504e4e"
 
 if xdo id -a "$PANEL_WM_NAME" > /dev/null ; then
-    printf "%s\n" "The panel is already running." >&2
-    exit 1
+  printf "%s\n" "The panel is already running." >&2
+  exit 1
 fi
 
 trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
@@ -26,70 +26,71 @@ bspc config top_padding $PANEL_HEIGHT
 bspc subscribe report > "$PANEL_FIFO" &
 
 while read -r line ; do
-    case $line in
-        S*)
-            # conky output
-            sys="${line#?}"
-            ;;
-        W*)
-            # bspwm's state
-            wm=""
-            IFS=':'
-            mon=0
-            set -- ${line#?}
-            while [ $# -gt 0 ] ; do
-                item=$1
-                name=${item#?}
-                case $item in
-                    [mM]*)
-                        if [ $num_mon -ge 2 ]; then
-                            mon=$((mon+1))
-                            if [ $mon -gt 1 ]; then
-                                wm="${wm}%{F${COLOR_GREY2}}%{B${COLOR_BLACK}};"
-                            fi
-                        fi
-                        ;;
-                    [fFoOuU]*)
-                        case $item in
-                            f*)
-                                # free desktop
-                                FG=$COLOR_GREY2
-                                BG=$COLOR_BLACK
-                                ;;
-                            F*)
-                                # focused free desktop
-                                FG=$COLOR_GREY1
-                                BG=$COLOR_GREY3
-                                ;;
-                            o*)
-                                # occupied desktop
-                                FG=$COLOR_GREY2
-                                BG=$COLOR_BLACK
-                                ;;
-                            O*)
-                                # focused occupied desktop
-                                FG=$COLOR_GREY1
-                                BG=$COLOR_GREY3
-                                ;;
-                        esac
-                        wm="${wm}%{F${COLOR_GREY2}}%{B${BG}}%{F${FG}}%{A:bspc desktop -f ${name}:} ${name}%{A}%{F${BG}}%{B${COLOR_GREY2}}"
-                        ;;
-                esac
-                shift
-            done
-            ;;
-    esac
-
-    while IFS=';' read -ra array; do
-        bar=""
-        for item in "${!array[@]}"; do
-            bar=${bar}"%{l}${array[${item}]}"
-            if [ ${item} -lt $((${#array[@]} - 1)) ]; then
-                bar=${bar}"${sys}%{S+}"
+  case $line in
+    S*)
+      # conky output
+      sys="${line#?}"
+      ;;
+    W*)
+      # bspwm's state
+      wm=""
+      IFS=':'
+      mon=0
+      set -- ${line#?}
+      while [ $# -gt 0 ] ; do
+        item=$1
+        name=${item#?}
+        case $item in
+          [mM]*)
+            if [ $num_mon -ge 2 ]; then
+              mon=$((mon+1))
+              if [ $mon -gt 1 ]; then
+                wm="${wm}%{F${COLOR_GREY2}}%{B${COLOR_BLACK}};"
+              fi
             fi
-        done
-    done <<< ${wm}
+            ;;
+          [fFoOuU]*)
+            case $item in
+              f*)
+                # free desktop
+                FG=$COLOR_GREY2
+                BG=$COLOR_BLACK
+                ;;
+              F*)
+                # focused free desktop
+                FG=$COLOR_GREY1
+                BG=$COLOR_GREY3
+                ;;
+              o*)
+                # occupied desktop
+                FG=$COLOR_GREY2
+                BG=$COLOR_BLACK
+                ;;
+              O*)
+                # focused occupied desktop
+                FG=$COLOR_GREY1
+                BG=$COLOR_GREY3
+                ;;
+            esac
 
-    printf "%s\n" "${bar}%{F${COLOR_GREY2}}%{B${COLOR_BLACK}}${sys}"
+            wm="${wm}%{F${COLOR_GREY2}}%{B${BG}}%{F${FG}}%{A:bspc desktop -f ${name}:} ${name}%{A}%{F${BG}}%{B${COLOR_GREY2}}"
+            ;;
+        esac
+        shift
+      done
+      ;;
+  esac
 
-done < "$PANEL_FIFO" | lemonbar -a 10 -n "$PANEL_WM_NAME" -g x$PANEL_HEIGHT -f "$PANEL_FONT" -F "$COLOR_GREY2" -B "$COLOR_BLACK" | /usr/bin/dash
+  while IFS=';' read -ra array; do
+    bar=""
+    for item in "${!array[@]}"; do
+      bar=${bar}"%{l}${array[${item}]}"
+      if [ ${item} -lt $((${#array[@]} - 1)) ]; then
+        bar=${bar}"${sys}%{S+}"
+      fi
+    done
+  done <<< ${wm}
+
+  printf "%s\n" "${bar}%{F${COLOR_GREY2}}%{B${COLOR_BLACK}}${sys}"
+
+done < "$PANEL_FIFO" | lemonbar -a 10 -n "$PANEL_WM_NAME" -g x$PANEL_HEIGHT -f "$PANEL_FONT" -F "$COLOR_GREY2" -B "$COLOR_BLACK" | bash
