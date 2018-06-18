@@ -1,0 +1,15 @@
+#!/usr/bin/python
+from pathlib import Path
+from serial import Serial
+
+def main():
+    serialport = "/dev/ttyUSB0"
+    baudrate = 9600
+
+    if Path(serialport).is_char_device():
+        with Serial(serialport, baudrate) as serial:
+            serial.write(b'temperature\n')
+            print("{:0.1f}°".format(float(serial.readline())))
+
+if __name__ == '__main__':
+    main()
