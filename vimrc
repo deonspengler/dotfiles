@@ -1,34 +1,31 @@
+" vim-plug automatic installationx
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+" plugins to install and manage
+call plug#begin('~/.vim/plugged')
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'tpope/vim-fugitive'
+Plug 'tmhedberg/SimpylFold'
+Plug 'maralla/completor.vim'
+Plug 'vim-syntastic/syntastic'
+Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdtree'
+Plug 'nanotech/jellybeans.vim'
+Plug 'rakr/vim-one'
+call plug#end()
+
 " set encoding type
 set encoding=utf-8
 
 " be iMproved
 set nocompatible
-
-"install vundle with the following command
-"git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-
-" required for Vundle
-filetype off
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-" plugins to install and manage
-Plugin 'gmarik/Vundle.vim'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'bling/vim-airline'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'nanotech/jellybeans.vim'
-Plugin 'reedes/vim-colors-pencil'
-Plugin 'rakr/vim-one'
-call vundle#end()
-
-" set color scheme
-set t_Co=256
-colorschem jellybeans
 
 " allows buffers to be hidden if modified
 set hidden
@@ -37,8 +34,8 @@ set hidden
 filetype plugin indent on
 syntax on
 
-"colorscheme one
-"set background=dark
+" 80 column layout for python
+autocmd FileType python set colorcolumn=80
 
 " spell checking
 imap <F5> <C-o>:setlocal spell! spelllang=en_us<CR>
@@ -49,7 +46,6 @@ autocmd FileType text set spell spelllang=en_us
 set nobackup
 set noswapfile
 set nowritebackup
-set viminfo=
 set cm=blowfish
 
 " show line numbers
@@ -57,6 +53,15 @@ set number
 
 " toggle line numbers
 nnoremap <F2> :set nonumber!<CR>:set foldcolumn=0<CR>
+
+" set preview window at the bottom
+set splitbelow
+
+" bindings for switch panes
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
 
 "set pastetoggle=<F4>
 nnoremap <F4> :set nopaste!<CR>
@@ -68,15 +73,15 @@ set softtabstop=4
 set shiftround
 set expandtab
 
+" for html set tabstop and shiftwidth to 2 spaces
+autocmd Filetype html setlocal ts=2 sw=2 expandtab
+autocmd Filetype htmldjango setlocal ts=2 sw=2 expandtab
+
 " set search options
 set hlsearch
 set incsearch
 set ignorecase
 set smartcase
-
-" easier moving of code block indentation
-vnoremap < <gv
-vnoremap > >gv
 
 " rebind <leader> key
 let mapleader=","
@@ -84,10 +89,9 @@ let mapleader=","
 " map sort function to a key
 vnoremap <leader>s :sort<CR>
 
-" YouCompleteMe
-let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_key_list_select_completion=[]
-let g:ycm_key_list_previous_completion=[]
+" easier moving of code block indentation
+vnoremap < <gv
+vnoremap > >gv
 
 " airline
 set laststatus=2
@@ -103,14 +107,28 @@ let g:airline#extensions#tabline#buffer_min_count = 2
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<C-j>"
 
-" 80 column layout for python
-autocmd FileType python set colorcolumn=80
+" Configure code folding for python
+autocmd Syntax python normal zR
+
+" configure syntastic
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+let g:syntastic_python_pylint_args = "--load-plugins pylint_django"
+
+" bind <C-n> for nerdtree
+map <C-n> :NERDTreeToggle<CR>
+
+" set color scheme
+set t_Co=256
+colorschem jellybeans
 
 " set color for printing
 command Hardcopy call Hardcopy()
 function! Hardcopy()
   let colors_save = g:colors_name
-  colorscheme pencil
+  colorscheme one
   hardcopy
   execute 'colorscheme' colors_save
 endfun
