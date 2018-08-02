@@ -21,23 +21,10 @@ vim
 ---
 Vim is one of the best text editors and is very customisable, with few plugins it can pretty much do whatever you require from a text editor. Here is a couple of plugins that I use and find very useful.
 
-* vungle (is used to manage plugins in vim)
+* plug (is used to manage plugins in vim)
 * ultisnips (is the ultimate solution for snippets in vim)
 * vim-snippets (contains snippets files for various programming languages)
-* YouCompleteMe (is a fast, as-you-type, fuzzy-search code completion engine for vim)
+* completor (is a fast, as-you-type code completion for vim)
 * nerdcommenter (allows for easy commenting of code for many file types)
 * vim-airline (is a lean status/tabline for vim)
 * jellbeans (is a dark yet colourful colour scheme)
-
-To setup Vim on your system with my configuration please run the following command to install vundle on your system.
-
-```
-git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-```
-
-Once that is done you can proceed to execute vim. With Vim now open type :PluginInstall. This can take awhile to complete, when the install process finishes exit vim and run the following commands to compile and finalize the installation of YouCompleteMe.
-
-```
-cd ~/.vim/bundle/YouCompleteMe
-python2 install.py
-```
