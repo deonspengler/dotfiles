@@ -1,15 +1,16 @@
 Xft.dpi: 108
-Xft.autohint: 0
+Xft.autohint: false
 Xft.lcdfilter: lcddefault
 Xft.hintstyle: hintslight
-Xft.hinting: 1
-Xft.antialias: 1
+Xft.hinting: true
+Xft.antialias: true
 Xft.rgba: rgb
 
 URxvt.depth: 32
-URxvt*background: [97]#2E3440
+URxvt.background: [85]#000000
 URxvt.scrollBar: false
 URxvt.geometry: 90x30
+!URxvt.font: xft:SauceCodePro Nerd Font Mono:style=Regular:size=11,xft:Noto Color Emoji:style=Regular:size=11
 URxvt.font: -misc-tamlin-medium-r-normal--16-116-100-100-c-80-iso10646-1
 URxvt.colorMode: on
 URxvt.cursorBlink: true
@@ -19,23 +20,73 @@ URxvt.borderless: true
 URxvt.urlLauncher: /usr/bin/firefox
 URxvt.underlineURLs: false
 
-*.foreground: #D8DEE9
-*.background: #2E3440
-*.cursorColor: #D8DEE9
+!*.foreground: #D8DEE9
+!*.background: #29292b
+!*.cursorColor: #D8DEE9
+!*.color0: #3B4252
+!*.color1: #BF616A
+!*.color2: #A3BE8C
+!*.color3: #EBCB8B
+!*.color4: #81A1C1
+!*.color5: #B48EAD
+!*.color6: #88C0D0
+!*.color7: #E5E9F0
+!*.color8: #4C566A
+!*.color9: #BF616A
+!*.color10: #A3BE8C
+!*.color11: #EBCB8B
+!*.color12: #81A1C1
+!*.color13: #B48EAD
+!*.color14: #8FBCBB
+!*.color15: #ECEFF4
 
-*.color0: #3B4252
-*.color1: #BF616A
-*.color2: #A3BE8C
-*.color3: #EBCB8B
-*.color4: #81A1C1
-*.color5: #B48EAD
-*.color6: #88C0D0
-*.color7: #E5E9F0
-*.color8: #4C566A
-*.color9: #BF616A
-*.color10: #A3BE8C
-*.color11: #EBCB8B
-*.color12: #81A1C1
-*.color13: #B48EAD
-*.color14: #8FBCBB
-*.color15: #ECEFF4
+!TomorrowNightBright
+#define t_background        #000000
+#define t_current_line      #e8e8e8
+#define t_selection      	#424242
+#define t_foreground      	#a5a5a5
+#define t_comment	     	#969896
+#define t_red		     	#d54e53
+#define t_orange	     	#e78c45
+#define t_yellow        	#e7c547
+#define t_green	        	#b9ca4a
+#define t_aqua	        	#70c0b1
+#define t_blue	        	#7aa6da
+#define t_purple        	#c397d8
+
+
+*.foreground:   t_foreground
+*.background:   t_background
+*.cursorColor:  #aeafad
+
+! Black / Grey
+*.color0:       #000000
+*.color8:       #666666
+
+! Red / Bright Red
+*.color1:       t_red
+*.color9:       #FF3334
+
+! Green + Bright Green
+*.color2:       t_green
+*.color10:      #9ec400
+
+! Yellow (Orange) + Bright Yellow (Yellow)
+*.color3:       t_orange
+*.color11:      t_yellow
+
+! Blue + Bright Blue
+*.color4:       t_blue
+*.color12:      t_blue
+
+! Magenta (Purple) + Bright Magenta
+*.color5:       t_purple
+*.color13:      #b777e0
+
+! Cyan (Aqua) + Bright Cyan
+*.color6:       t_aqua
+*.color14:      #54ced6
+
+! Light Grey (Selection) + White (Current Line)
+*.color7:       t_selection
+*.color15:      t_current_line
