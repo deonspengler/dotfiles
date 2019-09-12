@@ -12,6 +12,12 @@ export HISTSIZE=1000
 export SAVEHIST=1000 
 setopt SHARE_HISTORY
 
+# set correct gpg tty for ssh
+if [ -n "$SSH_TTY" ]; then
+  export GPG_TTY=$SSH_TTY
+  gpg-connect-agent updatestartuptty /bye >/dev/null
+fi
+
 # add path to $fpath
 fpath=("$HOME/.zsh/functions/prompts" $fpath)
 
