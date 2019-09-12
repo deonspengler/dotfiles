@@ -1,3 +1,6 @@
+" set encoding type
+set encoding=utf-8
+
 " vim-plug automatic installationx
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -12,17 +15,12 @@ Plug 'honza/vim-snippets'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
-Plug 'tmhedberg/SimpylFold'
 Plug 'maralla/completor.vim'
-Plug 'vim-syntastic/syntastic'
 Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/nerdtree'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'nanotech/jellybeans.vim'
 Plug 'rakr/vim-one'
 call plug#end()
-
-" set encoding type
-set encoding=utf-8
 
 " be iMproved
 set nocompatible
@@ -38,7 +36,7 @@ syntax on
 autocmd FileType python set colorcolumn=80
 
 " spell checking
-imap <F5> <C-o>:setlocal spell! spelllang=en_us<CR>
+map <F5> :setlocal spell! spelllang=en_us<CR>
 autocmd FileType mail set spell spelllang=en_us
 autocmd FileType text set spell spelllang=en_us
 
@@ -84,10 +82,15 @@ set ignorecase
 set smartcase
 
 " rebind <leader> key
-let mapleader=","
+let mapleader=";"
 
 " map sort function to a key
 vnoremap <leader>s :sort<CR>
+
+" easier buffer navigation
+map ;n :bn<cr>
+map ;p :bp<cr>
+map ;d :bd<cr>
 
 " easier moving of code block indentation
 vnoremap < <gv
@@ -106,19 +109,6 @@ let g:airline#extensions#tabline#buffer_min_count = 2
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<C-j>"
-
-" Configure code folding for python
-autocmd Syntax python normal zR
-
-" configure syntastic
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
-let g:syntastic_python_pylint_args = "--load-plugins pylint_django"
-
-" bind <C-n> for nerdtree
-map <C-n> :NERDTreeToggle<CR>
 
 " set color scheme
 set t_Co=256
