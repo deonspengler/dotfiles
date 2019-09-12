@@ -1,5 +1,5 @@
 #!/usr/bin/bash
-PANEL_FIFO=/tmp/panel-fifo
+PANEL_FIFO=/run/user/$(id -u)/lemonbar
 PANEL_HEIGHT=16
 PANEL_FONT="-misc-tamlin-medium-r-normal--16-116-100-100-c-80-iso10646-1"
 PANEL_WM_NAME=bspwm_panel
