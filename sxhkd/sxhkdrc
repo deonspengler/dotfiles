@@ -4,47 +4,43 @@
 
 # restart bspwm
 super + alt + Escape
-	bspc quit
+    bspc quit
 
 # close window
 alt + w
-	bspc node -c
+    bspc node -c
 
 # switch window state to floating or fullscreen
 super + {s,f}
-	bspc node -t {'~floating','~fullscreen'}
+    bspc node -t {'~floating','~fullscreen'}
 
 # switch window state to tiling or monocle
 super + m
-	bspc desktop -l next
+    bspc desktop -l next
 
 # send active window to preselect
 alt + y
-	bspc node -n last.!automatic
+    bspc node -n last.!automatic
 
 # move active window
 alt + {_,shift + }{h,j,k,l}
-	bspc node -{f,s} {west,south,north,east}
+    bspc node -{f,s} {west,south,north,east}
 
 # rotate window position
 super + {comma,period}
-	bspc desktop -C {backward,forward}
+    bspc node @/ --rotate {90,-90}
 
 # Mirror and flip leaves of tree
 alt + {comma,period}
     bspc node @/ -F {horizontal,vertical}
 
-# Rotate leaves of tree
-alt + shift + {period,comma}
-    bspc node @/ -R {90,270}
-
 # switch workspace on desktop
 alt + bracket{left,right}
-	bspc desktop -f {prev,next}
+    bspc desktop -f {prev,next}
 
 # preselection
 alt + ctrl + {h,j,k,l}
-	bspc node -p {'~west','~south','~north','~east'}
+    bspc node -p {'~west','~south','~north','~east'}
 
 # expand a window by moving one of its side outward
 super +  {h,j,k,l}
@@ -56,7 +52,7 @@ super +  shift + {h,j,k,l}
 
 # send active window to desktop
 super + {_,shift + }{1-9,0}
-	bspc {desktop -f,node -d} ^{1-9,10}
+    bspc {desktop -f,node -d} ^{1-9,10}
 
 ########################
 # wm independent hotkeys
@@ -64,23 +60,29 @@ super + {_,shift + }{1-9,0}
 
 # urxvt terminal
 alt + Return
-	urxvtc
+    urxvtc
 
 # application launcher
 super + space
     dmenu_run -fn "-misc-tamlin-medium-r-normal--16-116-100-100-c-80-iso10646-1" -nb "#000000" -sb "#517ba2"
 
-# mpd next track
-alt + n
-    mpc -h 192.168.0.1 next
+# clipboard manager
+super + c
+    clipmenu -fn "-misc-tamlin-medium-r-normal--16-116-100-100-c-80-iso10646-1" -nb "#000000" -sb "#517ba2"
 
-# mpd previous track
-alt + p
-    mpc -h 192.168.0.1 prev
+super + shift + c
+    clearclip
 
-# play / pause mpd
-alt + s
-    mpc -h 192.168.0.1 toggle
+# password manager
+super + p
+    passmenu -fn "-misc-tamlin-medium-r-normal--16-116-100-100-c-80-iso10646-1" -nb "#000000" -sb "#517ba2"
+
+# media controls
+alt + {n,p,s}
+    mpc --host=slainsmpdserver@shadowblade.lan --port 6600 {next,prev,toggle}
+
+XF86Audio{Next,Prev,Play}
+    mpc --host=slainsmpdserver@shadowblade.lan --port 6600 {next,prev,toggle}
 
 # file manager
 alt + BackSpace
@@ -94,6 +96,10 @@ alt + shift + b
 alt + shift + x
     steam
 
+# notification for current song from mpd
+alt + i
+    mpdnotify
+
 # lock screen
 ctrl + super + l
     dm-tool switch-to-greeter
@@ -102,17 +108,9 @@ ctrl + super + l
 ctrl + super +  m
     blankmonitor
 
-# put rocket legue over both monitors
-alt + c
-    xdotool search --name "Rocket League" windowactivate windowmove 0 0 
-
-# increase master volume
-alt + i
-    pamixer -i 5
-
-# decrease master volume
-alt + u
-    pamixer -d 5
+# volume control
+XF86Audio{Raise,Lower}Volume
+    pamixer {-i5,-d5}
 
 # mute toggle
 alt + m
@@ -120,4 +118,4 @@ alt + m
 
 # make sxhkd reload its configuration files:
 super + Escape
-	pkill -USR1 -x sxhkd
+    pkill -USR1 -x sxhkd
