@@ -22,11 +22,11 @@ if [ ${#monitors[@]} -eq 2 ]; then
     bspc monitor ${monitors[0]} -d web games
     bspc monitor ${monitors[1]} -d term misc
 else
-    bspc monitor -d web term games misc
+    bspc monitor -d term web games misc
 fi
 
 # application rules
-bspc rule -a Firefox desktop=web
+bspc rule -a Chromium desktop=web
 bspc rule -a Steam follow=off state=floating desktop=games
 bspc rule -a Galculator state=floating
 bspc rule -a Nvidia-settings state=floating
@@ -54,5 +54,11 @@ sxhkd &
 # desktop notifications
 dunst &
 
+# clipboard manager
+clipmenud &
+
 # hide mouse when idle
 unclutter &
+
+# start music player daemon
+mpd
